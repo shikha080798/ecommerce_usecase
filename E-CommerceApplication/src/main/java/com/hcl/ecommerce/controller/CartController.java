@@ -1,0 +1,36 @@
+package com.hcl.ecommerce.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.hcl.ecommerce.dto.ProductResponseDto;
+import com.hcl.ecommerce.model.Cart;
+import com.hcl.ecommerce.model.Products;
+import com.hcl.ecommerce.service.impl.CartServiceImpl;
+import com.hcl.ecommerce.service.impl.ProductServiceImpl;
+
+@RestController
+public class CartController {
+	
+	@Autowired
+	CartServiceImpl cartServiceImpl;
+	
+	@PostMapping("api/cart/{customerId}/{productId}")
+	public ResponseEntity<String> addToCart(@PathVariable int customerId,@PathVariable int productId){
+		return new ResponseEntity<String>(cartServiceImpl.addToCart(customerId, productId),HttpStatus.OK);
+	}
+	
+	
+	@GetMapping("api/cart/{customerId}")
+	public ResponseEntity<List<ProductResponseDto>> displayCart(@PathVariable int customerId){
+		return new ResponseEntity<List<ProductResponseDto>>(cartServiceImpl.displayCart(customerId),HttpStatus.OK);
+	}
+
+}
